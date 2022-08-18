@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #displays Best School 10 times
 
-for ((Best School > 0; Best School = 10; Best School++))
-fo
+for _ in {1..10};
+do
 echo "Best School"
 done
