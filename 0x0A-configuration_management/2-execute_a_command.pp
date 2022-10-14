@@ -1,6 +1,4 @@
-#  a manifest that kills a process named killmenow
-exec { 'pkill':
-  command => 'pkill -f killmenow',
-  path    => '/bin/bash',
-  return  => [0, 1],
+# Kill the process killmenow
+exec { 'pkill killmenow':
+  path    => '/usr/bin',
 }
