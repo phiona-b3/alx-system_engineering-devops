@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-# Put all
-func () {
-    dig_info=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | awk '{print $1" "$4" "$5}' | cut -d ";" -f 3)
-    record=$(echo "$dig_info" | cut -d " " -f 2)
-    ip=$(echo "$dig_info" | cut -d " " -f 3)
-    echo "The subdomain $2 is a $record record and points to $ip"
+# shellcheck disable=SC2086
+# display information about subdomains
+
+display_info ()
+{
+    domain="$1"
+    subdomain="$2"
+    dig "$subdomain.$domain" | awk '/ANSWER SECTION:/{getline; printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$subdomain"
 }
 
-if [ $# -eq 1 ]; then
-    func "$1" "www"
-    func "$1" "lb-01"
-    func "$1" "web-01"
-    func "$1" "web-02"
-elif [ $# -eq 2 ]; then
-    func "$1" "$2"
-fi
+for subdomain in "www" "lb-01" "web-01" "web-02"
+do
+    if [ -z "$2" ] || [ "$2" == "$subdomain" ] ;
+    then
+	display_info "$1" "$subdomain"
+    fi
+done
