@@ -1,27 +1,37 @@
 #!/usr/bin/python3
-"""using REST API to solve a task"""
+
+"""
+Python script that, using a REST API, for a given employee ID,
+returns information about his/her TODO list progress.
+"""
+
+from requests import get
+from sys import argv
+
+
 if __name__ == "__main__":
-    import requests
-    import sys
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
+    completed = 0
+    total = 0
+    tasks = []
+    response2 = get('https://jsonplaceholder.typicode.com/users')
+    data2 = response2.json()
 
-    user_id = int(sys.argv[1])
-    user_info = requests.get('https://jsonplaceholder.typicode.com/users?id={}'
-                             .format(user_id))
+    for i in data2:
+        if i.get('id') == int(argv[1]):
+            employee = i.get('name')
 
-    try:
-        TOTAL_NUMBER_OF_TASKS = tasks.json()
-        NUMBER_OF_DONE_TASKS = 0
-        TASK_TITLE = []
+    for i in data:
+        if i.get('userId') == int(argv[1]):
+            total += 1
 
-        for task in tasks_json:
-            if task.get("completed") is True:
-                NUMBER_OF_DONE_TASKS += 1
-                TASK_TITLE.append(task.get("title"))
+            if i.get('completed') is True:
+                completed += 1
+                tasks.append(i.get('title'))
 
-    except err:
-        print("Not a valid JSON")
+    print("Employee {} is done with tasks({}/{}):".format(employee, completed,
+                                                          total))
 
-        print("Employee {} is done with tasks({}/{}):".format
-              (EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, len(TOTAL_NUMBER_OF_TASKS)))
-        for title in TASK_TITLE:
-            print("\t {}".format(title))
+    for i in tasks:
+        print("\t {}".format(i))
