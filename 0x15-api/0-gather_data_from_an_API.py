@@ -9,7 +9,7 @@ if __name__ == "__main__":
                              .format(user_id))
 
     try:
-        TOTAL_NUMBER_OF_TASKS = tasks.json()
+        TOTAL_NUMBER_OF_TASKS = TASKS.json()
         NUMBER_OF_DONE_TASKS = 0
         TASK_TITLE = []
 
@@ -18,10 +18,11 @@ if __name__ == "__main__":
                 NUMBER_OF_DONE_TASKS += 1
                 TASK_TITLE.append(task.get("title"))
 
-    except err:
+    except error:
         print("Not a valid JSON")
 
         print("Employee {} is done with tasks({}/{}):".format
-              (EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, len(TOTAL_NUMBER_OF_TASKS)))
+              (EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS,
+                  len(TOTAL_NUMBER_OF_TASKS)))
         for title in TASK_TITLE:
             print("\t {}".format(title))
