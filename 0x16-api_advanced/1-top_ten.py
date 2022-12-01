@@ -9,6 +9,15 @@ def top_ten(subreddit):
     header = {'User-Agent': 'Mozilla/5.0'}
     a = requests.get(base_url, headers=header, allow_redirects=False)
 
+    if a.status_code != 200:
+        print(None)
+        return None
+    try:
+        theme = s.json()
+    except Exception:
+        print("Not a valid JSON")
+        return 0
+
     try:
         requireddata = theme.get("data")
         children = requireddata.get("children")
