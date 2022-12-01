@@ -12,7 +12,7 @@ def top_ten(subreddit):
     if a.status_code != 200:
         print(None)
         return None
-    
+
     try:
         theme = a.json()
     except Exception:
